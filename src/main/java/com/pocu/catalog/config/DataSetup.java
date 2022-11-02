@@ -4,7 +4,6 @@ import com.pocu.catalog.entity.*;
 import com.pocu.catalog.enums.UserType;
 import com.pocu.catalog.service.*;
 import com.pocu.catalog.web.dto.ProjectDto;
-import com.pocu.catalog.web.dto.ProjectStudentDto;
 import com.pocu.catalog.web.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -175,7 +174,6 @@ public class DataSetup implements ApplicationRunner {
     private void addMockProjectStudentForStudent(String userEmail,Long projectId){
         ProjectStudentEntity projectStudentEntity=new ProjectStudentEntity();
         projectStudentEntity.setSolution("am rezolvat usor");
-        projectStudentEntity.setDescription("Cu usurinta ");
         User user=userService.getUsersByEmail(userEmail).get(0);
         ProjectEntity projectEntity=projectService.getProject(projectId);
         projectStudentEntity.setProject(projectEntity);

@@ -6,14 +6,14 @@ public class ProjectStudentDto  extends BaseDto {
     private String solution;
     private String attachment;
 
-    private String description;
+    private String grade;
 
-    public String getDescription() {
-        return description;
+    public String getGrade() {
+        return grade;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public Long getProjectId() {

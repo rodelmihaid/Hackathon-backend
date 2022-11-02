@@ -73,4 +73,25 @@ public class ProjectStudentController {
         return projectStudentConverter.fromEntityToDto(projectStudentEntities);
     }
 
+    @GetMapping(value = "/project/{id}/teacher")
+    public List<ProjectStudentDto> getProjectStudentsByProjectsForTeacher(@PathVariable(name = "id") Long id) {
+        logger.debug("Get all projectStudent by project id");
+       List<ProjectStudentEntity> projectStudentEntities = projectStudentService.getProjectStudentsByProjectIdAndUserIsNotTeacher(id);
+        if (projectStudentEntities == null) {
+            return null;
+        }
+        return projectStudentConverter.fromEntitiesToDtos(projectStudentEntities);
+    }
+
+    @GetMapping(value = "/project/{id}/user/{userEmail}/grade/{grade}")
+    public ProjectStudentDto saveGrade(@PathVariable(name = "id") Long id, @PathVariable(name = "userEmail") String userEmail,
+                                       @PathVariable(name = "grade") String grade) {
+        logger.debug("Get all projectStudent by project id");
+        ProjectStudentEntity projectStudentEntities = projectStudentService.addGrade(id, userEmail,grade);
+        if (projectStudentEntities == null) {
+            return null;
+        }
+        return projectStudentConverter.fromEntityToDto(projectStudentEntities);
+    }
+
 }

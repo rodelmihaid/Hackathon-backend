@@ -21,7 +21,7 @@ public class ProjectStudentConverter extends BaseConverter<ProjectStudentDto, Pr
 
         dto.setId(entity.getId());
         dto.setAttachment(entity.getAttachment());
-        dto.setDescription(entity.getDescription());
+        dto.setGrade(entity.getGrade());
         dto.setSolution(entity.getSolution());
         return dto;
 
@@ -32,7 +32,7 @@ public class ProjectStudentConverter extends BaseConverter<ProjectStudentDto, Pr
     public ProjectStudentEntity fromDtoToEntity(ProjectStudentDto dto) {
         ProjectStudentEntity entity = new ProjectStudentEntity();
         entity.setId(dto.getId());
-        entity.setDescription(dto.getDescription());
+        entity.setGrade(dto.getGrade());
         entity.setAttachment(dto.getAttachment());
         entity.setSolution(dto.getSolution());
         return entity;

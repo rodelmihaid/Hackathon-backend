@@ -12,6 +12,7 @@ import java.util.List;
 public interface ProjectStudentRepository extends CrudRepository<ProjectStudentEntity, Long> {
     List<ProjectStudentEntity> findProjectStudentEntityByProjectId(Long projectId);
   ProjectStudentEntity findProjectStudentEntityByProjectIdAndStudentId(Long projectId,Long studentId);
+ List<ProjectStudentEntity> findProjectStudentEntityByProjectIdAndStudent_Authorities(Long projectId,String roleName);
 }
 
 //@Repository

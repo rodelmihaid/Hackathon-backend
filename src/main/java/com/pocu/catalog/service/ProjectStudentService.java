@@ -2,6 +2,7 @@ package com.pocu.catalog.service;
 
 import com.pocu.catalog.entity.ProjectStudentEntity;
 import com.pocu.catalog.entity.User;
+import com.pocu.catalog.enums.UserType;
 import com.pocu.catalog.exception.ProjectStudentNotFoundException;
 import com.pocu.catalog.repository.ProjectStudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +95,21 @@ public class ProjectStudentService {
 
     }
 
+    public List<ProjectStudentEntity> getProjectStudentsByProjectIdAndUserIsNotTeacher(Long id) {
+        return projectStudentRepository.findProjectStudentEntityByProjectIdAndStudent_Authorities(id, UserType.USER.toString());
+
+    }
+
+    public ProjectStudentEntity addGrade(Long id,String userEmail,String grade) {
+        User user=userService.getUsersByEmail(userEmail).get(0);
+
+
+        ProjectStudentEntity projectStudentEntity= projectStudentRepository.findProjectStudentEntityByProjectIdAndStudentId(id,user.getId());
+
+        projectStudentEntity.setGrade(grade);
+       return projectStudentRepository.save(projectStudentEntity);
+
+    }
 
 
     public ProjectStudentEntity updateProjectStudent(Long id, ProjectStudentEntity projectStudentToUpdate) {

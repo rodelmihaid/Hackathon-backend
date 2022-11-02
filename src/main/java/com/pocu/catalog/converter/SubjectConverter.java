@@ -13,7 +13,7 @@ public class SubjectConverter extends BaseConverter<SubjectDto, SubjectEntity> {
         subjectDto.setOptional(subjectEntity.getOptional());
         subjectDto.setName(subjectEntity.getName());
         subjectDto.setCreditPoints(subjectEntity.getCreditPoints());
-
+//        subjectDto.setTeacherAssignedOnSubject(subjectEntity.get);
         return subjectDto;
     }
 

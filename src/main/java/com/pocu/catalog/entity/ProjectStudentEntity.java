@@ -1,8 +1,6 @@
 package com.pocu.catalog.entity;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.io.Serializable;
 
 
 @Entity
@@ -10,8 +8,8 @@ import java.io.Serializable;
 
 public class ProjectStudentEntity extends BaseEntity {
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "grade")
+    private String grade;
 
    @Column(name = "solution")
    private String solution;
@@ -28,12 +26,12 @@ public class ProjectStudentEntity extends BaseEntity {
     @JoinColumn(name="project_id")
     ProjectEntity project;
 
-    public String getDescription() {
-        return description;
+    public String getGrade() {
+        return grade;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setGrade(String description) {
+        this.grade = description;
     }
 
     public String getSolution() {

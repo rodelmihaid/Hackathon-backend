@@ -11,6 +11,7 @@ public class SubjectDto extends BaseDto{
     private Boolean optional;
     @NotNull(message = "creditPoints.cannot.be.empty")
     private Integer creditPoints;
+    private String teacherAssignedOnSubject;
 
     public String getName() {
         return name;
@@ -34,6 +35,14 @@ public class SubjectDto extends BaseDto{
 
     public void setCreditPoints(Integer creditPoints) {
         this.creditPoints = creditPoints;
+    }
+
+    public String getTeacherAssignedOnSubject() {
+        return teacherAssignedOnSubject;
+    }
+
+    public void setTeacherAssignedOnSubject(String teacherAssignedOnSubject) {
+        this.teacherAssignedOnSubject = teacherAssignedOnSubject;
     }
 
     @Override
