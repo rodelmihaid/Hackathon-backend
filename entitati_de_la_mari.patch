@@ -1,0 +1,1209 @@
+Index: src/main/java/com/pocu/catalog/converter/BaseConverter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/converter/BaseConverter.java b/src/main/java/com/pocu/catalog/converter/BaseConverter.java
+--- a/src/main/java/com/pocu/catalog/converter/BaseConverter.java	
++++ b/src/main/java/com/pocu/catalog/converter/BaseConverter.java	
+@@ -1,7 +1,9 @@
+ package com.pocu.catalog.converter;
+ 
+ import com.pocu.catalog.entity.BaseEntity;
++import com.pocu.catalog.entity.ProjectEntity;
+ import com.pocu.catalog.web.dto.BaseDto;
++import com.pocu.catalog.web.dto.ProjectDto;
+ import org.springframework.util.CollectionUtils;
+ 
+ import java.util.Collections;
+@@ -35,4 +37,6 @@
+                 .map(dto -> fromDtoToEntity(dto))
+                 .collect(Collectors.toList());
+     }
++
++    //public abstract ProjectEntity fromDtoToEntity(ProjectDto dto);
+ }
+Index: src/main/java/com/pocu/catalog/converter/StudentConverter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/converter/StudentConverter.java b/src/main/java/com/pocu/catalog/converter/StudentConverter.java
+--- a/src/main/java/com/pocu/catalog/converter/StudentConverter.java	
++++ b/src/main/java/com/pocu/catalog/converter/StudentConverter.java	
+@@ -1,6 +1,8 @@
+ package com.pocu.catalog.converter;
+ 
++import com.pocu.catalog.entity.ProjectEntity;
+ import com.pocu.catalog.entity.StudentEntity;
++import com.pocu.catalog.web.dto.ProjectDto;
+ import com.pocu.catalog.web.dto.StudentDto;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Component;
+@@ -36,4 +38,9 @@
+ 
+         return studentEntity;
+     }
++
++//    @Override
++//    public ProjectEntity fromDtoToEntity(ProjectDto dto) {
++//        return null;
++//    }
+ }
+Index: src/main/java/com/pocu/catalog/web/dto/ProjectStudentDto.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/web/dto/ProjectStudentDto.java b/src/main/java/com/pocu/catalog/web/dto/ProjectStudentDto.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/web/dto/ProjectStudentDto.java	
+@@ -0,0 +1,62 @@
++package com.pocu.catalog.web.dto;
++
++public class ProjectStudentDto  extends BaseDto {
++    private Long projectId;
++    private Long studentId;
++    private String solution;
++    private String attachment;
++
++    private String description;
++
++    public String getDescription() {
++        return description;
++    }
++
++    public void setDescription(String description) {
++        this.description = description;
++    }
++
++    public Long getProjectId() {
++        return projectId;
++    }
++
++    public void setProjectId(Long projectId) {
++        this.projectId = projectId;
++    }
++
++    public Long getStudentId() {
++        return studentId;
++    }
++
++    public void setStudentId(Long studentId) {
++        this.studentId = studentId;
++    }
++
++    public String getSolution() {
++        return solution;
++    }
++
++    public void setSolution(String solution) {
++        this.solution = solution;
++    }
++
++    public String getAttachment() {
++        return attachment;
++    }
++
++    public void setAttachment(String attachment) {
++        this.attachment = attachment;
++    }
++
++    @Override
++    public String toString() {
++        return "ProjectStudentDto{" +
++                "projectId='" + projectId + '\'' +
++                ", studentId=" + studentId +
++                ", solution=" + solution +
++                ", attachment=" + attachment +
++//              //  ", subjects=" + subjects +
++                "} " + super.toString();
++    }
++
++}
+\ No newline at end of file
+Index: src/main/java/com/pocu/catalog/web/SubjectController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/web/SubjectController.java b/src/main/java/com/pocu/catalog/web/SubjectController.java
+--- a/src/main/java/com/pocu/catalog/web/SubjectController.java	
++++ b/src/main/java/com/pocu/catalog/web/SubjectController.java	
+@@ -1,9 +1,13 @@
+ package com.pocu.catalog.web;
+ 
+ import com.pocu.catalog.converter.SubjectConverter;
++import com.pocu.catalog.entity.ProjectEntity;
+ import com.pocu.catalog.entity.SubjectEntity;
++import com.pocu.catalog.entity.TeacherEntity;
+ import com.pocu.catalog.service.SubjectService;
++import com.pocu.catalog.web.dto.ProjectDto;
+ import com.pocu.catalog.web.dto.SubjectDto;
++import com.pocu.catalog.web.dto.TeacherDto;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.springframework.beans.factory.annotation.Autowired;
+@@ -49,6 +53,9 @@
+         return subjectConverter.fromEntityToDto(subjectEntity);
+     }
+ 
++    //@PostMapping(value="/save-project")
++
++
+     @PutMapping(value = "/{id}")
+     public SubjectDto updateSubject(@PathVariable Long id, @Valid @RequestBody SubjectDto subjectDto) {
+         logger.debug("Update subject with id {}", id);
+@@ -62,4 +69,13 @@
+         subjectService.deleteSubject(id);
+     }
+ 
++//    @PutMapping(value = "/{subjectId}/project/{projectId}")
++//    public SubjectDto assignProjectToSubject(@PathVariable(name = "subjectId") Long subjectId,
++//                                             @PathVariable(name = "projectId") Long projectId) {
++//        logger.debug("Assign subject {} to project {}", subjectId, projectId);
++//        SubjectEntity subjectEntity = subjectService.assignProjectToSubject(subjectId, projectId);
++//
++//        return teacherConverter.fromEntityToDto(teacherEntity);
++//    }
++
+ }
+Index: src/main/java/com/pocu/catalog/service/SubjectService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/service/SubjectService.java b/src/main/java/com/pocu/catalog/service/SubjectService.java
+--- a/src/main/java/com/pocu/catalog/service/SubjectService.java	
++++ b/src/main/java/com/pocu/catalog/service/SubjectService.java	
+@@ -1,6 +1,8 @@
+ package com.pocu.catalog.service;
+ 
++import com.pocu.catalog.entity.ProjectEntity;
+ import com.pocu.catalog.entity.SubjectEntity;
++import com.pocu.catalog.entity.TeacherEntity;
+ import com.pocu.catalog.exception.SubjectNotFoundException;
+ import com.pocu.catalog.repository.SubjectRepository;
+ import org.springframework.beans.factory.annotation.Autowired;
+@@ -51,4 +53,21 @@
+     public void deleteSubject(Long id) {
+         subjectRepository.deleteById(id);
+     }
++
++    public List<ProjectEntity> getAllProjectsFromSubjects(Long id){
++        SubjectEntity subjectEntity = subjectRepository.getById(id);
++        return subjectEntity.getProject();
++    }
++
++
++//    public SubjectEntity assigProjectToSubject(Long subjectId, Long projectId) {
++//        ProjectEntity projectEntity = projectService.getProject(projectId);
++//        SubjectEntity subjectEntity = getSubject(subjectId);
++//
++//        subjectEntity.setProject(projectEntity);
++//
++//        return subjectRepository.save(subjectEntity);
++//    }
++
++
+ }
+Index: src/main/java/com/pocu/catalog/service/ProjectService.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/service/ProjectService.java b/src/main/java/com/pocu/catalog/service/ProjectService.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/service/ProjectService.java	
+@@ -0,0 +1,99 @@
++package com.pocu.catalog.service;
++
++import com.pocu.catalog.entity.ProjectEntity;
++import com.pocu.catalog.entity.ProjectStudentEntity;
++import com.pocu.catalog.entity.SubjectEntity;
++import com.pocu.catalog.exception.ProjectNotFoundException;
++import com.pocu.catalog.repository.ProjectRepository;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.data.domain.PageRequest;
++import org.springframework.stereotype.Service;
++
++import java.util.ArrayList;
++import java.util.List;
++import java.util.Optional;
++
++
++@Service                //this class is a Service bean
++public class ProjectService {
++
++    private final static String PROJECT_NOT_FOUND_CODE = "PROJECT_NOT_FOUND";
++    private final ProjectRepository projectRepository;
++    private final SubjectService subjectService;
++
++
++    @Autowired
++    public ProjectService(ProjectRepository projectRepository, SubjectService subjectService) {
++        this.projectRepository = projectRepository;
++        this.subjectService = subjectService;
++    }
++
++    public List<ProjectEntity> getAllProjects() {
++        List<ProjectEntity> projectList = new ArrayList<>();
++        projectRepository.findAll().iterator().forEachRemaining(projectList::add);
++        return projectList;
++    }
++
++
++    public void saveProject(ProjectEntity projectEntity, Long subjectId) {
++        SubjectEntity subjectEntity = subjectService.getSubject(subjectId);
++        subjectEntity.addProject(projectEntity);
++        subjectService.saveSubject(subjectEntity);
++    }
++
++    public void deleteProject(Long id) {
++        projectRepository.deleteById(id);
++    }
++
++    public void deleteAllProjects() {
++        projectRepository.deleteAll();
++    }
++
++    public ProjectEntity getProject(Long id) {
++        Optional<ProjectEntity> projectOptional = projectRepository.findById(id);
++        if (projectOptional.isPresent()) {
++            return projectOptional.get();
++        } else {
++            throw new ProjectNotFoundException("Project with id " + id + "not found", PROJECT_NOT_FOUND_CODE);
++        }
++    }
++
++    public ProjectEntity updateProject(Long id, ProjectEntity projectToUpdate) {
++        ProjectEntity storedProject = getProject(id);
++        projectToUpdate.setId(id);
++
++        return projectRepository.save(projectToUpdate);
++
++    }
++
++//-----------------------------------------------------------------
++
++    public ProjectEntity assignProjectToSubject(Long projectId, Long subjectId) {
++        SubjectEntity subjectEntity = subjectService.getSubject(subjectId);
++        ProjectEntity projectEntity = getProject(projectId);
++
++        projectEntity.setSubject(subjectEntity);
++
++        return projectRepository.save(projectEntity);
++    }
++
++    public List<ProjectEntity> getProjectsBySubjectId(Long id) {
++        List<ProjectEntity> projectEntities = subjectService.getAllProjectsFromSubjects(id);
++        return projectEntities;
++
++    }
++
++
++}
++//--------------------------------------------------------------
++
++
++//@Service
++//public class ProjectService {
++////    private SubjectRepository subjectRepository;
++////    private static final String STUDENT_NOT_FOUND_CODE = "STUDENT_NOT_FOUND";
++////    @Autowired
++////    public ProjectService(SubjectRepository subjectRepository) {
++////        this.subjectRepository = subjectRepository;
++////    }
++
+Index: src/main/java/com/pocu/catalog/entity/SubjectEntity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/entity/SubjectEntity.java b/src/main/java/com/pocu/catalog/entity/SubjectEntity.java
+--- a/src/main/java/com/pocu/catalog/entity/SubjectEntity.java	
++++ b/src/main/java/com/pocu/catalog/entity/SubjectEntity.java	
+@@ -1,6 +1,7 @@
+ package com.pocu.catalog.entity;
+ 
+ import javax.persistence.*;
++import java.util.ArrayList;
+ import java.util.List;
+ import java.util.Objects;
+ 
+@@ -20,6 +21,10 @@
+     @ManyToMany(mappedBy = "enrolledSubjects")
+     private List<StudentEntity> enrolledStudents;
+ 
++    @OneToMany
++    @JoinColumn(name = "project_id")
++    private List<ProjectEntity> projects;
++
+     public String getName() {
+         return name;
+     }
+@@ -66,4 +71,21 @@
+     public int hashCode() {
+         return Objects.hash(name, creditPoints, optional);
+     }
++
++
++
++    public List<ProjectEntity> getProject() {
++        return projects;
++    }
++
++    public void addProject(ProjectEntity project) {
++        if (this.projects == null) {
++            this.projects = new ArrayList<>();
++        }
++        this.projects.add(project);
++    }
++
++    public void setProjects(List<ProjectEntity> projects) {
++        this.projects = projects;
++    }
+ }
+Index: src/main/java/com/pocu/catalog/entity/StudentEntity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/entity/StudentEntity.java b/src/main/java/com/pocu/catalog/entity/StudentEntity.java
+--- a/src/main/java/com/pocu/catalog/entity/StudentEntity.java	
++++ b/src/main/java/com/pocu/catalog/entity/StudentEntity.java	
+@@ -80,4 +80,6 @@
+         }
+         this.enrolledSubjects.remove(subject);
+     }
++
++
+ }
+Index: src/main/java/com/pocu/catalog/web/ProjectController.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/web/ProjectController.java b/src/main/java/com/pocu/catalog/web/ProjectController.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/web/ProjectController.java	
+@@ -0,0 +1,92 @@
++package com.pocu.catalog.web;
++
++import com.pocu.catalog.converter.ProjectConverter;
++import com.pocu.catalog.entity.ProjectEntity;
++import com.pocu.catalog.entity.ProjectStudentEntity;
++import com.pocu.catalog.service.ProjectService;
++import com.pocu.catalog.web.dto.ProjectDto;
++import com.pocu.catalog.web.dto.ProjectStudentDto;
++import org.slf4j.LoggerFactory;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.web.bind.annotation.*;
++
++import javax.validation.Valid;
++import java.util.List;
++
++@CrossOrigin(origins = "http://localhost:4200")
++@RestController
++@RequestMapping(value = "/project")
++public class ProjectController {
++
++    private org.slf4j.Logger logger = LoggerFactory.getLogger(StudentController.class);
++
++
++    private final ProjectService projectService;
++    private final ProjectConverter projectConverter;
++
++    //private Logger logger = LoggerFactory.getLogger(ProjectController.class);
++    @Autowired
++    public ProjectController(ProjectService projectService, ProjectConverter projectConverter) {
++        this.projectService = projectService;
++        this.projectConverter = projectConverter;
++    }
++
++    @GetMapping(value = "")
++    public List<ProjectDto> getProjects(){
++        logger.debug("Get all students");
++        return projectConverter.fromEntitiesToDtos(projectService.getAllProjects());
++    }
++
++
++    @GetMapping(value = "/{id}")
++    public ProjectDto getProject(@PathVariable(name = "id") Long id) {
++        logger.debug("Get project by id {}", id);
++
++        return projectConverter.fromEntityToDto(projectService.getProject(id));
++    }
++
++
++
++    @PostMapping(value = "")
++    public void saveProject(@Valid @RequestBody ProjectDto projectDto) {
++        logger.debug("Save project {}", projectDto.toString());
++        projectService.saveProject(projectConverter.fromDtoToEntity(projectDto), projectDto.getSubjectId());
++
++    }
++
++//    @PostMapping(value = "/{id}/enrollment/{status}/{projectId}")
++//    public ProjectDto enrollProjectToSubject(@PathVariable(name = "id") Long id,
++//                                             @PathVariable(name = "projectId") Long projectId,
++//                                             @PathVariable(name = "status") Boolean status) {
++//        logger.debug("Enroll project {} to subject {} status {}", id, projectId, status);
++//
++//        ProjectEntity projectEntity = projectService.enroll(id, projectId, status);
++//
++//        return projectConverter.fromEntityToDto(projectEntity);
++//    }
++
++
++    @PutMapping(value = "/{id}")
++    public ProjectDto updateProject(@PathVariable(name = "id") Long id,
++                                    @Valid @RequestBody ProjectDto projectDto) {
++        logger.debug("Updating project with id {}", id);
++        ProjectEntity projectEntity = projectService.updateProject(id, projectConverter.fromDtoToEntity(projectDto));
++
++        return projectConverter.fromEntityToDto(projectEntity);
++    }
++
++    @DeleteMapping(value = "/{id}")
++    public void deleteProject(@PathVariable(name = "id") Long id) {
++        logger.debug("Delete project with id {}", id);
++
++        projectService.deleteProject(id);
++    }
++
++    @GetMapping(value = "/subject/{id}")
++    public List<ProjectDto> getProjectBySubjectId(@PathVariable Long id) {
++        logger.debug("Get all project by subject id");
++        List <ProjectEntity> projectStudentEntities = projectService.getProjectsBySubjectId(id);
++        return projectConverter.fromEntitiesToDtos(projectStudentEntities);
++    }
++
++}
+\ No newline at end of file
+Index: src/main/java/com/pocu/catalog/entity/ProjectEntity.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/entity/ProjectEntity.java b/src/main/java/com/pocu/catalog/entity/ProjectEntity.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/entity/ProjectEntity.java	
+@@ -0,0 +1,83 @@
++package com.pocu.catalog.entity;
++
++import javax.persistence.*;
++import java.time.LocalDate;
++import java.util.ArrayList;
++import java.util.List;
++import java.util.Set;
++
++@Entity
++@Table(name = "project")
++public class ProjectEntity extends BaseEntity{
++
++    @Column(name = "title")
++    private String title;
++
++    @Column(name = "description")
++    private String description;
++
++    @Column(name = "attachment")
++    private String attachment;
++
++    @Column(name = "deadline")
++    private LocalDate deadline;
++
++
++
++    public String getTitle() {
++        return title;
++    }
++
++    public void setTitle(String title) {
++        this.title = title;
++    }
++
++    public String getDescription() {
++        return description;
++    }
++
++    public void setDescription(String description) {
++        this.description = description;
++    }
++
++    public String getAttachment() {
++        return attachment;
++    }
++
++    public void setAttachment(String attachment) {
++        this.attachment = attachment;
++    }
++
++    public LocalDate getDeadline() {
++        return deadline;
++    }
++
++    public void setDeadline(LocalDate deadline) {
++        this.deadline = deadline;
++    }
++
++
++    @Override
++    public String toString() {
++        return "ProjectEntity{" +
++                "title='" + title + '\'' +
++                ", description='" + description + '\'' +
++                ", attachment='" + attachment + '\'' +
++                ", deadline=" + deadline +
++                "} " + super.toString();
++    }
++
++//    public List<SubjectEntity> getSubjects() {
++//        return subjects;
++//    }
++//
++//    public void setSubject(SubjectEntity subject) {
++//        if (this.subjects == null) {
++//            this.subjects = new ArrayList<>();
++//        }
++//        this.subjects.add(subject);
++//    }
++
++    public void setSubject(SubjectEntity subjectEntity) {
++    }
++}
+Index: src/main/java/com/pocu/catalog/config/DataSetup.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/config/DataSetup.java b/src/main/java/com/pocu/catalog/config/DataSetup.java
+--- a/src/main/java/com/pocu/catalog/config/DataSetup.java	
++++ b/src/main/java/com/pocu/catalog/config/DataSetup.java	
+@@ -35,11 +35,11 @@
+     public void run(ApplicationArguments args) throws Exception {
+ 
+ 
+-       SubjectEntity subjectOne = saveSubject("Subject1", true, 5);
+-        SubjectEntity subjectTwo = saveSubject("Subject2", true, 2);
+-        SubjectEntity subjectThree = saveSubject("Subject3", false, 4);
+-        SubjectEntity subjectFore = saveSubject("Subject4", false, 5);
+-        SubjectEntity subjectFive= saveSubject("Subject5", true, 5);
++       SubjectEntity subjectOne = saveSubject("Matematica", true, 5);
++        SubjectEntity subjectTwo = saveSubject("Java", true, 6);
++        SubjectEntity subjectThree = saveSubject("C++", false, 4);
++        SubjectEntity subjectFore = saveSubject("Python", false, 5);
++        SubjectEntity subjectFive= saveSubject("Romana", true, 5);
+ 
+         List<SubjectEntity> subjects = new ArrayList<>();
+         subjects.add(subjectOne);
+@@ -48,27 +48,23 @@
+         subjects.add(subjectFore);
+         subjects.add(subjectFive);
+ 
+-        saveTeacher("FirstName1", "LastName1", "1234567890123", 10L, subjects);
+-        saveTeacher("FirstName2", "LastName2", "2234567890123", 15L, new ArrayList<>());
+-        saveTeacher("FirstName3", "LastName3", "3234567890123", 22L, new ArrayList<>());
+-        saveTeacher("FirstName4", "LastName4", "4234567890123", 22L, new ArrayList<>());
+-        saveTeacher("FirstName5", "LastName5", "5234567890123", 3L, new ArrayList<>());
+-        saveTeacher("FirstName6", "LastName6", "6234567890123", 12L, new ArrayList<>());
+-        saveTeacher("FirstName7", "LastName7", "7234567890123", 5L, new ArrayList<>());
+-        saveTeacher("FirstName8", "LastName8", "8234567890123", 22L, new ArrayList<>());
+-        saveTeacher("FirstName9", "LastName9", "9234567890123", 4L, new ArrayList<>());
+-        saveTeacher("FirstName10", "LastName10", "1034567890123", 2L, new ArrayList<>());
++        saveTeacher("Andrei", "Vasile", "1234567890123", 10L, subjects);
++        saveTeacher("Maria", "Pop", "2234567890123", 15L, new ArrayList<>());
++        saveTeacher("Alexandra", "Popescu", "3234567890123", 22L, new ArrayList<>());
++        saveTeacher("Lucian", "Popovici", "4234567890123", 22L, new ArrayList<>());
++        saveTeacher("Valentin", "Radu", "5234567890123", 3L, new ArrayList<>());
++        saveTeacher("Mirela", "Gheorghe", "6234567890123", 12L, new ArrayList<>());
++        saveTeacher("Carmen", "Predescu", "7234567890123", 5L, new ArrayList<>());
++        saveTeacher("Claudiu", "Vasilescu", "8234567890123", 22L, new ArrayList<>());
++        saveTeacher("Andreea", "Coman", "9234567890123", 4L, new ArrayList<>());
++        saveTeacher("Claudia", "Miclea", "1034567890123", 2L, new ArrayList<>());
+ 
+-        saveStudent("Student1", "Student1", BigDecimal.TEN);
+-        saveStudent("Student2", "Student2", BigDecimal.TEN);
+-        saveStudent("Student3", "Student3", BigDecimal.TEN);
+-        saveStudent("Student4", "Student4", BigDecimal.TEN);
+-        saveStudent("Student5", "Student5", BigDecimal.TEN);
+-        saveStudent("Student6", "Student6", BigDecimal.TEN);
+-        saveStudent("Student7", "Student7", BigDecimal.TEN);
+-        saveStudent("Student8", "Student8", BigDecimal.TEN);
+-        saveStudent("Student9", "Student9", BigDecimal.TEN);
+-        saveStudent("Student10", "Student10", BigDecimal.TEN);
++        saveStudent("Andreea", "Andreescu", BigDecimal.TEN);
++        saveStudent("Alex", "Bogdanescu", BigDecimal.TEN);
++        saveStudent("Marius", "Mugurescu", BigDecimal.TEN);
++        saveStudent("Sabin", "Popa", BigDecimal.TEN);
++        saveStudent("Mircea", "Dima", BigDecimal.TEN);
++
+ 
+     }
+ 
+@@ -90,6 +86,9 @@
+         teacherService.saveTeacher(teacherEntity);
+     }
+ 
++    private void enrollStudentSubject(Long studentId,Long subjectId){
++        StudentEntity studentEntity = studentService.enroll(studentId, subjectId, true);
++    }
+     private void saveStudent(String firstName, String lastName, BigDecimal averageGrade) {
+         StudentEntity studentEntity = new StudentEntity();
+         studentEntity.setFirstName(firstName);
+Index: src/main/java/com/pocu/catalog/web/dto/ProjectDto.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/web/dto/ProjectDto.java b/src/main/java/com/pocu/catalog/web/dto/ProjectDto.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/web/dto/ProjectDto.java	
+@@ -0,0 +1,66 @@
++package com.pocu.catalog.web.dto;
++
++import java.time.LocalDate;
++
++public class ProjectDto  extends BaseDto {
++    private String title;
++    private String description;
++    private String attachment;
++
++    private LocalDate deadline;
++    private Long subjectId;
++
++    public String getTitle() {
++        return title;
++    }
++
++    public void setTitle(String title) {
++        this.title = title;
++    }
++
++    public String getDescription() {
++        return description;
++    }
++
++    public void setDescription(String description) {
++        this.description = description;
++    }
++
++    public String getAttachment() {
++        return attachment;
++    }
++
++    public void setAttachment(String attachment) {
++        this.attachment = attachment;
++    }
++
++    public Long getSubjectId() {
++        return subjectId;
++    }
++
++    public void setSubjectId(Long subjectId) {
++        this.subjectId = subjectId;
++    }
++
++    @Override
++    public String toString() {
++        return "ProjectDto{" +
++                "title='" + title + '\'' +
++                ", description=" + description +
++                ", attachment=" + attachment +
++                ", deadline=" + deadline +
++//              //  ", subjects=" + subjects +
++                "} " + super.toString();
++
++    }
++
++    public LocalDate getDeadline() {
++        return deadline;
++    }
++
++    public void setdeadline(LocalDate deadline) {
++        this.deadline = deadline;
++    }
++
++
++}
+\ No newline at end of file
+Index: src/main/java/com/pocu/catalog/exception/ProjectStudentNotFoundException.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/exception/ProjectStudentNotFoundException.java b/src/main/java/com/pocu/catalog/exception/ProjectStudentNotFoundException.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/exception/ProjectStudentNotFoundException.java	
+@@ -0,0 +1,16 @@
++package com.pocu.catalog.exception;
++
++import org.springframework.http.HttpStatus;
++import org.springframework.web.bind.annotation.ResponseStatus;
++
++@ResponseStatus(value = HttpStatus.NOT_FOUND)
++public class ProjectStudentNotFoundException extends BaseException {
++    public ProjectStudentNotFoundException(String message, String errorCode) {
++        super(message, errorCode);
++    }
++
++    public ProjectStudentNotFoundException(String message, Throwable cause, String errorCode) {
++        super(message, cause, errorCode);
++    }
++}
++
+Index: src/main/java/com/pocu/catalog/repository/ProjectStudentRepository.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/repository/ProjectStudentRepository.java b/src/main/java/com/pocu/catalog/repository/ProjectStudentRepository.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/repository/ProjectStudentRepository.java	
+@@ -0,0 +1,24 @@
++package com.pocu.catalog.repository;
++
++import com.pocu.catalog.entity.ProjectEntity;
++import com.pocu.catalog.entity.ProjectStudentEntity;
++import org.springframework.data.repository.CrudRepository;
++import org.springframework.data.repository.PagingAndSortingRepository;
++import org.springframework.stereotype.Repository;
++
++import java.util.List;
++
++@Repository
++public interface ProjectStudentRepository extends CrudRepository<ProjectStudentEntity, Long> {
++    List<ProjectStudentEntity> findProjectStudentEntityByProjectId(Long projectId);
++}
++
++//@Repository
++//public interface ProjectStudentRepository extends PagingAndSortingRepository<ProjectStudentEntity, Long> {
++//
++//    List<ProjectStudentEntity> findByDescription(String description);
++//
++//    List<ProjectStudentEntity> findBySolution(String solution);
++//
++//    void deleteByDescription(String description);
++//}
+Index: src/main/java/com/pocu/catalog/service/ProjectStudentService.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/service/ProjectStudentService.java b/src/main/java/com/pocu/catalog/service/ProjectStudentService.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/service/ProjectStudentService.java	
+@@ -0,0 +1,104 @@
++package com.pocu.catalog.service;
++
++import com.pocu.catalog.entity.ProjectEntity;
++import com.pocu.catalog.entity.ProjectStudentEntity;
++import com.pocu.catalog.entity.StudentEntity;
++import com.pocu.catalog.entity.SubjectEntity;
++import com.pocu.catalog.exception.ProjectNotFoundException;
++import com.pocu.catalog.exception.ProjectStudentNotFoundException;
++import com.pocu.catalog.repository.ProjectRepository;
++import com.pocu.catalog.repository.ProjectStudentRepository;
++import com.pocu.catalog.repository.StudentRepository;
++import com.pocu.catalog.web.dto.ProjectStudentDto;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.data.domain.PageRequest;
++import org.springframework.stereotype.Service;
++
++import java.util.ArrayList;
++import java.util.List;
++import java.util.Optional;
++
++//@Service
++//public class ProjectStudentService {
++//    private final ProjectStudentRepository projectStudentRepository;
++//    private final ProjectRepository projectRepository;
++//    private final StudentRepository studentRepository;
++//    private static final String STUDENT_NOT_FOUND_CODE = "STUDENT_NOT_FOUND";
++//    @Autowired
++//    public ProjectStudentService(ProjectStudentRepository projectStudentRepository, ProjectRepository projectRepository, StudentRepository studentRepository) {
++//        this.projectStudentRepository = projectStudentRepository;
++//        this.projectRepository = projectRepository;
++//        this.studentRepository = studentRepository;
++//    }
++//
++//    public ProjectStudentEntity saveProjectStudent(ProjectStudentDto projectStudentDto) {
++//        ProjectEntity projectEntity = projectRepository.findById(projectStudentDto.getProjectId()).get();
++//        StudentEntity studentEntity = studentRepository.findById(projectStudentDto.getStudentId()).get();
++//        ProjectStudentEntity projectStudent = new ProjectStudentEntity();
++//        projectStudent.setProject(projectEntity);
++//        projectStudent.setStudent(studentEntity);
++//        projectStudent.setSolution(projectStudentDto.getSolution());
++//        //projectStudent.setAttachment(projectStudentDto.getAttachment());
++//        return projectStudentRepository.save(projectStudent);
++//    }
++//}
++
++@Service                //this class is a Service bean
++public class ProjectStudentService {
++
++    private final static String PROJECTSTUDENT_NOT_FOUND_CODE = "PROJECTSTUDENT_NOT_FOUND";
++    private final ProjectStudentRepository projectStudentRepository;
++    private final SubjectService subjectService;
++
++    @Autowired
++    public ProjectStudentService(ProjectStudentRepository projectStudentRepository, SubjectService subjectService) {
++        this.projectStudentRepository = projectStudentRepository;
++        this.subjectService = subjectService;
++    }
++
++    public List<ProjectStudentEntity> getProjectStudents() {
++        List<ProjectStudentEntity> projectStudentList = new ArrayList<>();
++        projectStudentRepository.findAll().iterator().forEachRemaining(projectStudentList::add);
++        return projectStudentList;
++    }
++
++    public ProjectStudentEntity saveProjectStudent(ProjectStudentEntity projectStudentEntity) {
++        return projectStudentRepository.save(projectStudentEntity);
++    }
++
++    public void deleteProjectStudent(Long id) {
++        projectStudentRepository.deleteById(id);
++    }
++
++    public void deleteAllProjectsStudents() {
++        projectStudentRepository.deleteAll();
++    }
++
++    public ProjectStudentEntity getProjectStudent(Long id) {
++        Optional<ProjectStudentEntity> projectStudentOptional = projectStudentRepository.findById(id);
++        if (projectStudentOptional.isPresent()) {
++            return projectStudentOptional.get();
++        } else {
++            throw new ProjectStudentNotFoundException("ProjectStudent with id " + id + "not found", PROJECTSTUDENT_NOT_FOUND_CODE);
++        }
++    }
++
++    public List<ProjectStudentEntity> getProjectStudentsByProjectId(Long id) {
++        List<ProjectStudentEntity> projectStudentEntities = new ArrayList<>();
++        projectStudentRepository.findProjectStudentEntityByProjectId(id).forEach(elem -> projectStudentEntities.add(elem));
++        return projectStudentEntities;
++
++    }
++
++    public ProjectStudentEntity updateProjectStudent(Long id, ProjectStudentEntity projectStudentToUpdate) {
++        ProjectStudentEntity storedProjectStudent = getProjectStudent(id);
++        projectStudentToUpdate.setId(id);
++
++        return projectStudentRepository.save(projectStudentToUpdate);
++
++    }
++
++}
++
++//-----------------------------------------------------------------
++
+Index: src/main/java/com/pocu/catalog/web/ProjectStudentController.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/web/ProjectStudentController.java b/src/main/java/com/pocu/catalog/web/ProjectStudentController.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/web/ProjectStudentController.java	
+@@ -0,0 +1,68 @@
++package com.pocu.catalog.web;
++
++import com.pocu.catalog.converter.ProjectStudentConverter;
++import com.pocu.catalog.entity.ProjectEntity;
++import com.pocu.catalog.entity.ProjectStudentEntity;
++import com.pocu.catalog.entity.StudentEntity;
++import com.pocu.catalog.entity.SubjectEntity;
++import com.pocu.catalog.repository.ProjectRepository;
++import com.pocu.catalog.repository.StudentRepository;
++import com.pocu.catalog.service.ProjectStudentService;
++import com.pocu.catalog.web.dto.ProjectStudentDto;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.web.bind.annotation.*;
++
++import javax.validation.Valid;
++import java.util.List;
++
++@CrossOrigin(origins = "http://localhost:4200")
++@RestController
++@RequestMapping(value = "/project-student")
++public class ProjectStudentController {
++    private final ProjectStudentService projectStudentService;
++    private final ProjectStudentConverter projectStudentConverter;
++
++    private final StudentRepository studentRepository;
++
++    private final ProjectRepository projectRepository;
++
++    @Autowired
++    public ProjectStudentController(ProjectStudentService projectStudentService, ProjectStudentConverter projectStudentConverter,StudentRepository studentRepository, ProjectRepository projectRepository) {
++        this.projectStudentService = projectStudentService;
++        this.projectStudentConverter = projectStudentConverter;
++        this.studentRepository=studentRepository;
++        this.projectRepository=projectRepository;
++    }
++
++    private Logger logger = (Logger) LoggerFactory.getLogger(ProjectStudentController.class);
++
++    @PostMapping(value = "")
++    public ProjectStudentDto saveProjectStudent(@Valid @RequestBody ProjectStudentDto projectStudentDto) {
++        logger.debug("Save projectstudent {}", projectStudentDto.toString());
++        StudentEntity studentEntity = studentRepository.findById(projectStudentDto.getStudentId()).get();
++        ProjectEntity projectEntity = projectRepository.findById(projectStudentDto.getProjectId()).get();
++        ProjectStudentEntity projectStudentEntity = projectStudentConverter.fromDtoToEntity(projectStudentDto);
++        projectStudentEntity.setStudent(studentEntity);
++        projectStudentEntity.setProject(projectEntity);
++        ProjectStudentEntity savedProjectStudentEntity = projectStudentService.saveProjectStudent(projectStudentEntity);
++        logger.debug("projectStudentEntity saved with id {}", projectStudentEntity.getId());
++        return projectStudentConverter.fromEntityToDto(projectStudentEntity);
++    }
++
++    @GetMapping(value = "")
++    public List<ProjectStudentDto> getProjectStudents() {
++        logger.debug("Get all projectStudent");
++        return projectStudentConverter.fromEntitiesToDtos(projectStudentService.getProjectStudents());
++    }
++
++    @GetMapping(value = "/project/{id}")
++    public List<ProjectStudentDto> getProjectStudentsByProjects(@PathVariable Long id) {
++        logger.debug("Get all projectStudent by project id");
++       List <ProjectStudentEntity> projectStudentEntities = projectStudentService.getProjectStudentsByProjectId(id);
++       return projectStudentConverter.fromEntitiesToDtos(projectStudentEntities);
++    }
++
++
++}
+Index: src/main/java/com/pocu/catalog/exception/ProjectNotFoundException.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/exception/ProjectNotFoundException.java b/src/main/java/com/pocu/catalog/exception/ProjectNotFoundException.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/exception/ProjectNotFoundException.java	
+@@ -0,0 +1,17 @@
++package com.pocu.catalog.exception;
++
++import org.springframework.http.HttpStatus;
++import org.springframework.web.bind.annotation.ResponseStatus;
++
++
++@ResponseStatus(value = HttpStatus.NOT_FOUND)
++public class ProjectNotFoundException extends BaseException {
++    public ProjectNotFoundException(String message, String errorCode) {
++        super(message, errorCode);
++    }
++
++    public ProjectNotFoundException(String message, Throwable cause, String errorCode) {
++        super(message, cause, errorCode);
++    }
++}
++
+Index: src/main/java/com/pocu/catalog/converter/ProjectStudentConverter.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/converter/ProjectStudentConverter.java b/src/main/java/com/pocu/catalog/converter/ProjectStudentConverter.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/converter/ProjectStudentConverter.java	
+@@ -0,0 +1,41 @@
++package com.pocu.catalog.converter;
++
++import com.pocu.catalog.entity.ProjectEntity;
++import com.pocu.catalog.entity.ProjectStudentEntity;
++import com.pocu.catalog.web.dto.ProjectDto;
++import com.pocu.catalog.web.dto.ProjectStudentDto;
++import org.springframework.stereotype.Component;
++
++@Component
++public class ProjectStudentConverter extends BaseConverter<ProjectStudentDto, ProjectStudentEntity> {
++
++
++    @Override
++    public ProjectStudentDto fromEntityToDto(ProjectStudentEntity entity) {
++        ProjectStudentDto dto = new ProjectStudentDto();
++       if (entity.getProject() != null) {
++           dto.setProjectId(entity.getProject().getId());
++       }
++
++        if (entity.getStudent() != null) {
++            dto.setStudentId(entity.getStudent().getId());
++        }
++
++        dto.setId(entity.getId());
++        //dto.setDescription(entity.getDescription());
++        dto.setSolution(entity.getSolution());
++        return dto;
++
++    }
++
++
++    @Override
++    public ProjectStudentEntity fromDtoToEntity(ProjectStudentDto dto) {
++        ProjectStudentEntity entity = new ProjectStudentEntity();
++        entity.setId(dto.getId());
++        entity.setDescription(dto.getDescription());
++        //entity.setAttachment(dto.getAttachment());
++        return entity;
++    }
++
++}
+\ No newline at end of file
+Index: src/main/java/com/pocu/catalog/entity/ProjectStudentEntity.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/entity/ProjectStudentEntity.java b/src/main/java/com/pocu/catalog/entity/ProjectStudentEntity.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/entity/ProjectStudentEntity.java	
+@@ -0,0 +1,84 @@
++package com.pocu.catalog.entity;
++
++import javax.persistence.*;
++import java.math.BigDecimal;
++import java.io.Serializable;
++
++
++@Entity
++@Table(name = "project_student")
++
++public class ProjectStudentEntity extends BaseEntity {
++
++    @Column(name = "description")
++    private String description;
++
++   @Column(name = "solution")
++   private String solution;
++
++    @Column(name = "attachment")
++    private String attachment;
++
++
++    @ManyToOne
++    @JoinColumn(name="student_id")
++    StudentEntity student;
++
++    @ManyToOne
++    @JoinColumn(name="project_id")
++    ProjectEntity project;
++
++    public String getDescription() {
++        return description;
++    }
++
++    public void setDescription(String description) {
++        this.description = description;
++    }
++
++    public String getSolution() {
++        return solution;
++    }
++
++    public void setSolution(String solution) {
++        this.solution = solution;
++    }
++
++    public StudentEntity getStudent() {
++        return student;
++    }
++
++    public void setStudent(StudentEntity student) {
++        this.student = student;
++    }
++
++    public ProjectEntity getProject() {
++        return project;
++    }
++
++    public void setProject(ProjectEntity project) {
++        this.project = project;
++    }
++
++    public void setSubject(SubjectEntity subjectEntity) {
++    }
++
++    public String getAttachment() {
++        return attachment;
++    }
++
++    public void setAttachment(String attachment) {
++        this.attachment = attachment;
++    }
++
++    //    @Override
++//    public String toString() {
++//        return "ProjectStudentEntity{" +
++//                ", description='" + description + '\'' +
++//                ", attachment='" + solution + '\'';
++//
++//    }
++
++
++
++}
+Index: src/main/java/com/pocu/catalog/converter/ProjectConverter.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/converter/ProjectConverter.java b/src/main/java/com/pocu/catalog/converter/ProjectConverter.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/converter/ProjectConverter.java	
+@@ -0,0 +1,32 @@
++package com.pocu.catalog.converter;
++
++import com.pocu.catalog.entity.ProjectEntity;
++import com.pocu.catalog.web.dto.ProjectDto;
++import org.springframework.stereotype.Component;
++
++@Component
++public class ProjectConverter extends BaseConverter<ProjectDto, ProjectEntity> {
++
++    public ProjectDto fromEntityToDto(ProjectEntity projectEntity) {
++        ProjectDto projectDto = new ProjectDto();
++        projectDto.setId(projectEntity.getId());
++        projectDto.setTitle(projectEntity.getTitle());
++        projectDto.setDescription(projectEntity.getDescription());
++        projectDto.setAttachment(projectEntity.getAttachment());
++        projectDto.setdeadline(projectEntity.getDeadline());
++
++        return projectDto;
++    }
++
++    public ProjectEntity fromDtoToEntity(ProjectDto projectDto) {
++        ProjectEntity projectEntity = new ProjectEntity();
++        projectEntity.setId(projectDto.getId());
++        projectEntity.setTitle(projectDto.getTitle());
++        projectEntity.setDescription(projectDto.getDescription());
++        projectEntity.setAttachment(projectDto.getAttachment());
++        projectDto.setdeadline(projectEntity.getDeadline());
++
++        return projectEntity;
++    }
++}
++
+Index: src/main/java/com/pocu/catalog/repository/ProjectRepository.java
+===================================================================
+diff --git a/src/main/java/com/pocu/catalog/repository/ProjectRepository.java b/src/main/java/com/pocu/catalog/repository/ProjectRepository.java
+new file mode 100644
+--- /dev/null	
++++ b/src/main/java/com/pocu/catalog/repository/ProjectRepository.java	
+@@ -0,0 +1,39 @@
++package com.pocu.catalog.repository;
++
++import com.pocu.catalog.entity.ProjectEntity;
++import com.pocu.catalog.entity.StudentEntity;
++import com.pocu.catalog.entity.TeacherEntity;
++import org.springframework.data.domain.Pageable;
++import org.springframework.data.repository.CrudRepository;
++import org.springframework.data.repository.PagingAndSortingRepository;
++import org.springframework.stereotype.Repository;
++
++import java.util.List;
++
++@Repository
++public interface ProjectRepository extends CrudRepository<ProjectEntity, Long> {
++
++    List<ProjectEntity> findByTitle(String title);
++
++    List<ProjectEntity> findByDescription(String description);
++
++
++
++}
++
++//@Repository
++//public interface ProjectRepository extends PagingAndSortingRepository<StudentEntity, Long> {
++//}
++
++
++//@Repository
++//public interface ProjectRepository extends PagingAndSortingRepository<ProjectEntity, Long> {
++//
++//    List<ProjectEntity> findByTitle(String title);
++//
++//    List<ProjectEntity> findByDescription(String description);
++//
++//    List<ProjectEntity> findByAttachment(String attachment);
++//
++//    void deleteByTitle(String cnp);
++//}

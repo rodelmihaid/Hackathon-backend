@@ -1,0 +1,23 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /catalog
+
+test.value: TestValue
+insert:
+  test:
+    data: true
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:h2:mem:catalog
+    driver-class-name: org.h2.Driver
+    username: user
+    password: pass
+  h2:
+    console:
+      enabled: true
+      path: /h2-console     #http://localhost:8081/catalog/h2-console
