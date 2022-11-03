@@ -185,8 +185,9 @@ public class DataSetup implements ApplicationRunner {
     private ProjectEntity addMockProjectOnSubject2(Long subjectId) {
         ProjectDto projectDto = new ProjectDto();
         projectDto.setSubjectId(subjectId);
-        projectDto.setTitle("Tema2");
-        projectDto.setDescription(" aaaaaaa  aa a a a a a a a a a bla sdl alda  slddgdkgdk gdk gdg dgd asfsdg dfg dfg dfgdf gdfg djfgdfjg jdgjdjg dfjg dfj gdjg jdf    fdg df gd g dfg g jdg jdj gd");
+        projectDto.setTitle("Tema - Magazin Electronic");
+        projectDto.setDescription("Să se realizeze o aplicație de tip consolă în C++ care să utilizeze principiile POO pentru " +
+                "realizarea funcționalităților unui magazin electronic.");
 //        projectDto.setAttachment();
         projectDto.setDeadline(LocalDate.now());
 
