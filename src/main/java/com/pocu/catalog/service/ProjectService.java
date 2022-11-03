@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 
 @Service                //this class is a Service bean
@@ -40,6 +43,7 @@ public class ProjectService {
 
 
     public void saveProject(ProjectEntity projectEntity, Long subjectId) {
+        projectRepository.save(projectEntity);
         SubjectEntity subjectEntity = subjectService.getSubject(subjectId);
         subjectEntity.addProject(projectEntity);
         subjectService.saveSubject(subjectEntity);
@@ -92,6 +96,21 @@ public class ProjectService {
 
     }
 
+//    public List<ProjectEntity> getAllProjects() {
+//        List<ProjectEntity> projectList = new ArrayList<>();
+//        projectRepository.findAll().iterator().forEachRemaining(projectList::add);
+//        return projectList;
+//    }
+
+
+
+        public List<ProjectEntity> getProjectWithDeadlineTomorrow() {
+            LocalDate today = LocalDate.now();
+            LocalDate tomorrow = today.plusDays(1);
+
+           return projectRepository.findAllByDeadlineEquals(tomorrow);
+
+        }
 
 }
 //--------------------------------------------------------------

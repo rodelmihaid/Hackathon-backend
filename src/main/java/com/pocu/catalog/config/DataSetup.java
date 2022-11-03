@@ -45,12 +45,21 @@ public class DataSetup implements ApplicationRunner {
         SubjectEntity subjectFore = saveSubject("Python", false, 5);
         SubjectEntity subjectFive = saveSubject("Romana", true, 5);
 
+        SubjectEntity subjectSix = saveSubject("Statistica Macroeconomica", true, 4);
+        SubjectEntity subjectSeven = saveSubject("Cercetari Operationale", true, 5);
+        SubjectEntity subjectEight = saveSubject("Baze de date", true, 5);
+        SubjectEntity subjectNine = saveSubject("Teoria Deciziei", true, 4);
+
         List<SubjectEntity> subjects = new ArrayList<>();
         subjects.add(subjectOne);
         subjects.add(subjectTwo);
         subjects.add(subjectThree);
         subjects.add(subjectFore);
         subjects.add(subjectFive);
+//        subjects.add(subjectSix);
+//        subjects.add(subjectSeven);
+//        subjects.add(subjectEight);
+//        subjects.add(subjectNine);
 
         saveTeacher("Andrei", "Vasile", "1234567890123", 10L, subjects);
         saveTeacher("Maria", "Pop", "2234567890123", 15L, new ArrayList<>());
@@ -99,6 +108,25 @@ public class DataSetup implements ApplicationRunner {
         ProjectEntity projectEntity1= addMockProjectOnSubject(subjectOne.getId());
 
         ProjectEntity projectEntity2=  addMockProjectOnSubject2(subjectTwo.getId());
+
+        ProjectEntity projectEntity3=  addMockProjectOnSubject3(subjectTwo.getId());
+        ProjectEntity projectEntity4=  addMockProjectOnSubject4(subjectTwo.getId());
+        ProjectEntity projectEntity5=  addMockProjectOnSubject5(subjectTwo.getId());
+        ProjectEntity projectEntity6=  addMockProjectOnSubject6(subjectSix.getId());
+        ProjectEntity projectEntity7=  addMockProjectOnSubject7(subjectSix.getId());
+        ProjectEntity projectEntity8=  addMockProjectOnSubject8(subjectSix.getId());
+        ProjectEntity projectEntity9=  addMockProjectOnSubject9(subjectSix.getId());
+        ProjectEntity projectEntity10=  addMockProjectOnSubject10(subjectSeven.getId());
+        ProjectEntity projectEntity11=  addMockProjectOnSubject11(subjectSeven.getId());
+        ProjectEntity projectEntity12=  addMockProjectOnSubject12(subjectSeven.getId());
+        ProjectEntity projectEntity13=  addMockProjectOnSubject13(subjectEight.getId());
+        ProjectEntity projectEntity14=  addMockProjectOnSubject14(subjectEight.getId());
+        ProjectEntity projectEntity15=  addMockProjectOnSubject15(subjectEight.getId());
+        ProjectEntity projectEntity16=  addMockProjectOnSubject16(subjectNine.getId());
+        ProjectEntity projectEntity17=  addMockProjectOnSubject17(subjectNine.getId());
+        ProjectEntity projectEntity18=  addMockProjectOnSubject18(subjectNine.getId());
+
+
 
 
         addMockProjectStudentForStudent(student1.getEmail(), projectEntity1.getId());
@@ -171,6 +199,224 @@ public class DataSetup implements ApplicationRunner {
 
     }
 
+    //POO
+    private ProjectEntity addMockProjectOnSubject3(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema1");
+        projectDto.setDescription("Să se realizeze o aplicație de tip consolă în C++ care să utilizeze principiile POO pentru realizarea funcționalităților unui magazin electronic.");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+
+    }
+
+    private ProjectEntity addMockProjectOnSubject4(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema2");
+        projectDto.setDescription("Să se genereze o clasă vector care să simuleze lucrul cu un vector de numere întregi.");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+
+    private ProjectEntity addMockProjectOnSubject5(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema3");
+        projectDto.setDescription("Să se realizeze o aplicație de tip consola in C++ pentru realizarea funcționalității unei trotinete electrice.");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+
+
+//    Statistică Macroeconomică
+    private ProjectEntity addMockProjectOnSubject6(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 1");
+        projectDto.setDescription("Analiza și caracterizarea forței de muncă pe teritoriul României.");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+
+    private ProjectEntity addMockProjectOnSubject7(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 2");
+        projectDto.setDescription("Analiza și caracterizarea PIB prin Metoda producției (metoda VAB) în perioada 2010-20120, la nivelul economiei naționale.");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+
+    private ProjectEntity addMockProjectOnSubject8(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 3");
+        projectDto.setDescription("Analiza și caracterizarea PIB prin Metoda utilizării finale (metoda cheltuielilor) în perioada 2010-2020, la nivelul economiei naționale.");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+
+
+    private ProjectEntity addMockProjectOnSubject9(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 4");
+        projectDto.setDescription("Analiza și caracterizarea PIB prin Metoda veniturilor (metoda repartiției) în perioada 2010-2020, la nivelul economiei naționale.");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+
+    //Cercetari Operationale
+    private ProjectEntity addMockProjectOnSubject10(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 1");
+        projectDto.setDescription("Scurt istoric, enunt, model matematic, exemplificare numerica");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+    private ProjectEntity addMockProjectOnSubject11(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 2");
+        projectDto.setDescription("Metoda penalizarii functiei obiectiv: exemplificare numerica, determinarea solutiei optime, interpretare economica a tuturor rezultatelor numerice obtinute.");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+    private ProjectEntity addMockProjectOnSubject12(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 3");
+        projectDto.setDescription("Aplicarea algoritmului pentru reoptimzare cu modificarea disponibilului de resurse  (fond de timp disponibil al utilajelor== capacitati de productie limitate!)");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+
+    //Baze de Date
+    private ProjectEntity addMockProjectOnSubject13(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 1");
+        projectDto.setDescription("Să se proiecteze și implementeze o bază de date în domeniul economic, utilizând limbajul SQL.");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+    private ProjectEntity addMockProjectOnSubject14(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 2");
+        projectDto.setDescription("Realizați următoarele comenzi:\n" +
+                "1. Sa se calculeze numarul de angajati pe fiecare departament.\n" +
+                "2. Sa se calculeze numarul de angajati din departamentele: Purchasing, Shipping, IT.\n" +
+                "3. Sa se afiseze doar departamentele care au un numar de angajati >5. Sa se calculeze pentru aceste departamente suma total de plata referitoare la salarii.");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+    private ProjectEntity addMockProjectOnSubject15(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 3");
+        projectDto.setDescription("Realizați următoarele comenzi:\n" +
+                "1. Sa se selecteze din tabela my_emp numai angajatii care au salariul cuprins intre 8000 si 10000.\n" +
+                "2. Sa se selecteze toti angajatii angajati inainte de 1 ianuarie 2000");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+
+
+    //Teoria Deciziei
+    private ProjectEntity addMockProjectOnSubject16(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 1");
+        projectDto.setDescription("Metoda Electre I, II: scurt istoric, enunt, model matematic, exemplificare numerica");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+    private ProjectEntity addMockProjectOnSubject17(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 2");
+        projectDto.setDescription("Metoda momentelor: scurt istoric, enunt, model matematic, exemplificare numerica");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+    private ProjectEntity addMockProjectOnSubject18(Long subjectId) {
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setSubjectId(subjectId);
+        projectDto.setTitle("Tema 3");
+        projectDto.setDescription("Metoda ponderării aditive: scurt istoric, enunt, model matematic, exemplificare numerica");
+//        projectDto.setAttachment();
+        projectDto.setDeadline(LocalDate.now());
+        ProjectEntity entity= projectService.save(projectDto);
+        subjectService.addProjectOnSubject(subjectId,entity.getId());
+
+        return entity;
+    }
+
+    //------------------------------------------------------------------------------
+
     private void addMockProjectStudentForStudent(String userEmail,Long projectId){
         ProjectStudentEntity projectStudentEntity=new ProjectStudentEntity();
         projectStudentEntity.setSolution("am rezolvat usor");
@@ -180,6 +426,8 @@ public class DataSetup implements ApplicationRunner {
         projectStudentEntity.setStudent(user);
         projectStudentService.saveProjectStudent(projectStudentEntity);
     }
+
+
 
 
 }

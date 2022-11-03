@@ -24,7 +24,7 @@ public class ProjectConverter extends BaseConverter<ProjectDto, ProjectEntity> {
         projectEntity.setTitle(projectDto.getTitle());
         projectEntity.setDescription(projectDto.getDescription());
         projectEntity.setAttachment(projectDto.getAttachment());
-        projectDto.setDeadline(projectEntity.getDeadline());
+        projectEntity.setDeadline(projectDto.getDeadline());
 
         return projectEntity;
     }

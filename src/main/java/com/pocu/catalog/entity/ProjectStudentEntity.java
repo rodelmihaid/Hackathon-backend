@@ -11,7 +11,7 @@ public class ProjectStudentEntity extends BaseEntity {
     @Column(name = "grade")
     private String grade;
 
-   @Column(name = "solution")
+   @Column(name = "solution",columnDefinition = "NVARCHAR(MAX)")
    private String solution;
 
     @Column(name = "attachment")

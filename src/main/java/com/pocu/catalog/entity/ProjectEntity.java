@@ -13,7 +13,8 @@ public class ProjectEntity extends BaseEntity{
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
+
+    @Column(name = "description",columnDefinition = "NVARCHAR(MAX)")
     private String description;
 
     @Column(name = "attachment")

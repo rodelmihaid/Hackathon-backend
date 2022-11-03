@@ -89,4 +89,11 @@ public class ProjectController {
         return projectConverter.fromEntitiesToDtos(projectStudentEntities);
     }
 
+    @GetMapping(value = "/projects-date")
+    public List<ProjectDto> getProjectWithDeadline() {
+        logger.debug("Get all project by deadline");
+        List <ProjectEntity> projectStudentEntities = projectService.getProjectWithDeadlineTomorrow();
+        return projectConverter.fromEntitiesToDtos(projectStudentEntities);
+    }
+
 }
