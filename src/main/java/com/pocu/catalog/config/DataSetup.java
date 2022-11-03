@@ -72,9 +72,9 @@ public class DataSetup implements ApplicationRunner {
         saveTeacher("Andreea", "Coman", "9234567890123", 4L, new ArrayList<>());
         saveTeacher("Claudia", "Miclea", "1034567890123", 2L, new ArrayList<>());
 
-        UserDto student1 = registerUser("Andreea", "Andreescu", "andreea@gmail.com", "andreea",UserType.USER.toString());
+        UserDto student1 = registerUser("Laura", "Dunca", "duncalaura20@stud.ase.ro", "laura",UserType.USER.toString());
         System.out.println("User Andreea id: " + student1.getId().toString());
-        UserDto student2 = registerUser("Alex", "Bogdanescu", "alex@gmail.com", "alex",UserType.USER.toString());
+        UserDto student2 = registerUser("Rodel", "Dimulete", "rodelmihaid@gmail.com", "rodel",UserType.USER.toString());
         UserDto student3 = registerUser("Marius", "Mugurescu", "marius@gmail.com", "marius",UserType.USER.toString());
         UserDto student4 = registerUser("Sabin", "Popa", "sabin@gmail.com", "sabin",UserType.USER.toString());
         UserDto student5 = registerUser("Mircea", "Dima", "mircea@gmail.com", "mircea",UserType.USER.toString());
@@ -174,7 +174,7 @@ public class DataSetup implements ApplicationRunner {
         projectDto.setTitle("Tema1");
         projectDto.setDescription("bla sdl alda  slddgdkgdk gdk gdg dgd asfsdg dfg dfg dfgdf gdfg djfgdfjg jdgjdjg dfjg dfj gdjg jdfg jdg jdj gd");
 //        projectDto.setAttachment();
-        projectDto.setDeadline(LocalDate.now());
+        projectDto.setDeadline(LocalDate.now().plusDays(1));
         ProjectEntity entity= projectService.save(projectDto);
         subjectService.addProjectOnSubject(subjectId,entity.getId());
 
